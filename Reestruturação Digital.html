@@ -1,0 +1,3205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reestruturação SEDUC 2025 - Antes e Depois</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .header p {
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: space-around;
+      background: #f8f9fa;
+      padding: 20px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .stat-number {
+      font-size: 2em;
+      font-weight: bold;
+      color: #2a5298;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+
+    .controls {
+      padding: 20px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      color: #495057;
+    }
+
+    select,
+    input {
+      padding: 8px 12px;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    select:focus,
+    input:focus {
+      outline: none;
+      border-color: #2a5298;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #2a5298;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #1e3c72;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .view-toggle {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      gap: 10px;
+    }
+
+    .toggle-btn {
+      padding: 10px 20px;
+      border: 2px solid #2a5298;
+      background: white;
+      color: #2a5298;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .toggle-btn.active {
+      background: #2a5298;
+      color: white;
+    }
+
+    .toggle-btn:hover {
+      background: #2a5298;
+      color: white;
+    }
+
+    .comparison-view {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .detailed-view {
+      display: none;
+    }
+
+    .detailed-view.active {
+      display: block;
+    }
+
+    .tabs-container {
+      margin: 20px 0;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      background: #f8f9fa;
+      border-radius: 10px 10px 0 0;
+      overflow: hidden;
+    }
+
+    .tab-button {
+      flex: 1;
+      padding: 15px 20px;
+      border: none;
+      background: #e9ecef;
+      color: #495057;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+      position: relative;
+    }
+
+    .tab-button:hover {
+      background: #dee2e6;
+    }
+
+    .tab-button.active {
+      background: white;
+      color: #2a5298;
+      border-bottom-color: #2a5298;
+    }
+
+    .tab-button.manter.active {
+      border-bottom-color: #1976d2;
+      color: #1976d2;
+    }
+
+    .tab-button.criar.active {
+      border-bottom-color: #4caf50;
+      color: #4caf50;
+    }
+
+    .tab-button.trocar.active {
+      border-bottom-color: #ff9800;
+      color: #ff9800;
+    }
+
+    .tab-button.inativar.active {
+      border-bottom-color: #f44336;
+      color: #f44336;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px 0;
+      min-height: 300px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .tab-counter {
+      background: rgba(255, 255, 255, 0.8);
+      color: #666;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-left: 8px;
+      font-weight: bold;
+    }
+
+    .detailed-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border-left: 5px solid #2a5298;
+    }
+
+    .change-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .change-type {
+      font-size: 0.9em;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .unit-info {
+      padding: 15px;
+      border-radius: 10px;
+      border: 2px dashed #ddd;
+    }
+
+    .unit-info.before {
+      background: #fff5f5;
+      border-color: #fed7d7;
+    }
+
+    .unit-info.after {
+      background: #f0fff4;
+      border-color: #9ae6b4;
+    }
+
+    .unit-info.empty {
+      background: #f7fafc;
+      border-color: #e2e8f0;
+      color: #a0aec0;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .arrow {
+      font-size: 1.5em;
+      color: #2a5298;
+      font-weight: bold;
+    }
+
+    .unit-title {
+      font-weight: bold;
+      color: #2d3748;
+      margin-bottom: 5px;
+    }
+
+    .unit-abbrev-detail {
+      color: #666;
+      font-family: monospace;
+      background: #f1f3f4;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .observation {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f7fafc;
+      border-radius: 8px;
+      font-size: 0.9em;
+      color: #4a5568;
+    }
+
+    .side {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 20px;
+      border: 2px solid #e9ecef;
+    }
+
+    .side h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1.3em;
+    }
+
+    .before h2 {
+      background: #ffeaa7;
+      color: #d63031;
+    }
+
+    .after h2 {
+      background: #a8e6cf;
+      color: #00b894;
+    }
+
+    .unit-card {
+      background: white;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      cursor: pointer;
+      border-left: 6px solid #2a5298;
+    }
+
+    .unit-card.manter {
+      border-left-color: #1976d2;
+      background: linear-gradient(135deg, #e3f2fd 0%, #f8faff 100%);
+    }
+
+    .unit-card.criar {
+      border-left-color: #4caf50;
+      background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+    }
+
+    .unit-card.trocar {
+      border-left-color: #ff9800;
+      background: linear-gradient(135deg, #fff8e1 0%, #fffaf0 100%);
+    }
+
+    .unit-card.inativar {
+      border-left-color: #f44336;
+      background: linear-gradient(135deg, #ffebee 0%, #fff5f5 100%);
+    }
+
+    .unit-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .unit-name {
+      font-weight: 600;
+      color: #2a5298;
+      margin-bottom: 5px;
+    }
+
+    .unit-abbrev {
+      color: #666;
+      font-size: 0.9em;
+      font-family: monospace;
+      background: #f1f3f4;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .action-badge {
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .manter {
+      background: #e3f2fd;
+      color: #0d47a1;
+      border: 2px solid #1976d2;
+    }
+
+    .criar {
+      background: #e8f5e8;
+      color: #1b5e20;
+      border: 2px solid #4caf50;
+    }
+
+    .trocar {
+      background: #fff8e1;
+      color: #e65100;
+      border: 2px solid #ff9800;
+    }
+
+    .inativar {
+      background: #ffebee;
+      color: #b71c1c;
+      border: 2px solid #f44336;
+    }
+
+    .retirada {
+      background: #f3e5f5;
+      color: #4a148c;
+      border: 2px solid #9c27b0;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+
+    .legend-color.manter {
+      background: #1976d2;
+    }
+
+    .legend-color.criar {
+      background: #4caf50;
+    }
+
+    .legend-color.trocar {
+      background: #ff9800;
+    }
+
+    .legend-color.inativar {
+      background: #f44336;
+    }
+
+    .legend-color.retirada {
+      background: #9c27b0;
+    }
+
+    .search-highlight {
+      background-color: #ffeb3b;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .export-section {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-view {
+        grid-template-columns: 1fr;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .stats-bar {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .view-toggle {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .toggle-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .before-after {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .arrow {
+        transform: rotate(90deg);
+        text-align: center;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .detail-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .close-btn:hover {
+      color: #000;
+    }
+
+    /* Footer Styles */
+    .footer {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      text-align: center;
+      padding: 25px 20px;
+      margin-top: 30px;
+      position: relative;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffd93d);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    .footer .author {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer .department {
+      font-size: 13px;
+      color: #e3f2fd;
+      opacity: 0.9;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .footer .credits {
+      font-size: 12px;
+      color: #b3d9ff;
+      opacity: 0.8;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    @keyframes shimmer {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.7;
+      }
+    }
+
+    .footer:hover {
+      transform: translateY(-2px);
+      transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .footer {
+        padding: 20px 15px;
+        font-size: 13px;
+      }
+
+      .footer .author {
+        font-size: 15px;
+      }
+
+      .footer .department {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Reestruturação SEDUC 2025</h1>
+      <p>Visualização das mudanças organizacionais - Antes e Depois</p>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-number" id="totalUnits">0</div>
+        <div class="stat-label">Total de Unidades</div>
+        <div class="stat-label">(Inclusive das Diretorias de Ensino)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" id="createdUnits">0</div>
+        <div class="stat-label">Unidades Criadas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" id="modifiedUnits">0</div>
+        <div class="stat-label">Unidades Modificadas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" id="extinctUnits">0</div>
+        <div class="stat-label">Unidades Extintas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" id="maintainedUnits">0</div>
+        <div class="stat-label">Unidades Mantidas</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="filter-group">
+        <label>Filtrar por ação:</label>
+        <select id="actionFilter">
+          <option value="">Todas as ações</option>
+          <option value="MANTER">Manter</option>
+          <option value="CRIAR">Criar</option>
+          <option value="TROCAR NOME e ABREVIATURA">
+            Trocar Nome/Abreviatura
+          </option>
+          <option value="INATIVAR">Inativar</option>
+          <option value="RETIRADA TRAMITAÇÃO">Retirada Tramitação</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Buscar:</label>
+        <input type="text" id="searchInput" placeholder="Digite o nome da unidade..." />
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-primary" onclick="exportToCSV()">
+          Exportar CSV
+        </button>
+        <button class="btn btn-secondary" onclick="resetFilters()">
+          Limpar Filtros
+        </button>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color trocar"></div>
+        <span>Alterações</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color manter"></div>
+        <span>Mantidas</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color inativar"></div>
+        <span>Extintas</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color criar"></div>
+        <span>Novas Unidades</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="view-toggle">
+        <button class="toggle-btn" onclick="switchView('comparison')">
+          Visualização Lado a Lado
+        </button>
+        <button class="toggle-btn active" onclick="switchView('detailed')">
+          Visualização Detalhada
+        </button>
+      </div>
+
+      <div class="comparison-view" id="comparisonView">
+        <div class="side before">
+          <h2>🔴 ANTES (Estrutura Antiga)</h2>
+          <div id="beforeContent"></div>
+        </div>
+
+        <div class="side after">
+          <h2>🟢 DEPOIS (Nova Estrutura)</h2>
+          <div id="afterContent"></div>
+        </div>
+      </div>
+
+      <div class="detailed-view" id="detailedView">
+        <div class="tabs-container">
+          <div class="tabs">
+            <button class="tab-button trocar active" onclick="switchTab('mudancas')" id="tab-mudancas">
+              📝 Alterações
+              <span class="tab-counter" id="counter-mudancas">0</span>
+            </button>
+            <button class="tab-button manter" onclick="switchTab('mantidas')" id="tab-mantidas">
+              ✅ Mantidas
+              <span class="tab-counter" id="counter-mantidas">0</span>
+            </button>
+            <button class="tab-button inativar" onclick="switchTab('extintas')" id="tab-extintas">
+              ❌ Extintas
+              <span class="tab-counter" id="counter-extintas">0</span>
+            </button>
+            <button class="tab-button criar" onclick="switchTab('novas')" id="tab-novas">
+              🆕 Novas
+              <span class="tab-counter" id="counter-novas">0</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="tab-content active" id="content-mudancas">
+          <!-- Conteúdo será gerado dinamicamente -->
+        </div>
+
+        <div class="tab-content" id="content-mantidas">
+          <!-- Conteúdo será gerado dinamicamente -->
+        </div>
+
+        <div class="tab-content" id="content-extintas">
+          <!-- Conteúdo será gerado dinamicamente -->
+        </div>
+
+        <div class="tab-content" id="content-novas">
+          <!-- Conteúdo será gerado dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentView = 'comparison';
+    let currentTab = 'mudancas';
+    let unitsData = [];
+    let filteredData = [];
+
+    // Parse the actual data from the document
+    function parseData() {
+      // Categoria 1: Mudanças (nome e/ou sigla antigos para novos)
+      const mudancas = [
+        {
+          oldName: 'Gabinete do Secretário Executivo',
+          oldAbbr: 'SEDUC-GSE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Secretaria Executiva',
+          newAbbr: 'SEDUC-GSE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assessoria Parlamentar e de Relações Institucionais',
+          oldAbbr: 'SEDUC-ARINS',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria de Relações Institucionais',
+          newAbbr: 'SEDUC-ARINS',
+          category: 'mudança',
+        },
+        {
+          oldName: 'ESCRITÓRIO DE PLANEJAMENTO E DE PROJETOS',
+          oldAbbr: 'SEDUC-EPP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria de Planejamento',
+          newAbbr: 'SEDUC-ASPLAN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assessoria de Comunicação',
+          oldAbbr: 'SEDUC-ASCOM',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria de Comunicação Integrada Externa',
+          newAbbr: 'SEDUC-ASCOM',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Intranet',
+          oldAbbr: 'SEDUC-INTRANET',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria de Comunicação Integrada Interna',
+          newAbbr: 'SEDUC-INTRANET',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assistência Técnica Chefia de Gabinete',
+          oldAbbr: 'SEDUC-ATCG',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria Técnica Chefia de Gabinete',
+          newAbbr: 'SEDUC-ATCG',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Unidade de Atendimento aos Órgãos de Controle Externo',
+          oldAbbr: 'SEDUC-UACEX',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName:
+            'Assessoria de Controle Interno e Atendimento aos órgãos de Controle Externo',
+          newAbbr: 'SEDUC-ACIEX',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Atendimento',
+          oldAbbr: 'SEDUC-CEAT',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Relacionamento com o Cidadão',
+          newAbbr: 'SEDUC-DRECID',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Cerimonial e Eventos',
+          oldAbbr: 'SEDUC-CEREV',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria de Cerimonial',
+          newAbbr: 'SEDUC-ACER',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Processo Administrativo Disciplinar',
+          oldAbbr: 'SEDUC-PAD',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Departamento de Correição',
+          newAbbr: 'SEDUC-DPCOR',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Processo Administrativo Disciplinar - Mutirão',
+          oldAbbr: 'SEDUC-PAD-MUTIRÃO',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Departamento de Correição - Mutirão',
+          newAbbr: 'SEDUC-DPCOR-MUTIRÃO',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Conselho Estadual de Alimentação Escolar',
+          oldAbbr: 'SEDUC-CEAE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Conselho Estadual de Alimentação Escolar de São Paulo',
+          newAbbr: 'SEDUC-CAESP',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Conselho de Acompanhamento e Controle Social do FUNDEB',
+          oldAbbr: 'SEDUC-CACS FUNDEB SP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Conselho de Acompanhamento e Controle Social do Fundeb',
+          newAbbr: 'SEDUC-CACS-FUNDEB',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Coordenadoria Pedagógica',
+          oldAbbr: 'SEDUC-COPED',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Subsecretaria Pedagógica',
+          newAbbr: 'SEDUC-SUPED',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assistência Técnica do Coordenador COPED',
+          oldAbbr: 'SEDUC-ATCOPED',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria Técnica Subsecretaria Pedagógica',
+          newAbbr: 'SEDUC-ATSUPED',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Departamento de Desenvolvimento Curricular e de Gestão Pedagógica',
+          oldAbbr: 'SEDUC-DECEGEP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Materiais Didáticos',
+          newAbbr: 'SEDUC-DIMAD',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Educação Infantil e Anos Iniciais do Ensino Fundamental',
+          oldAbbr: 'SEDUC-CEIAI',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Anos Iniciais do Ensino Fundamental',
+          newAbbr: 'SEDUC-COAIN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Anos Finais do Ensino Fundamental',
+          oldAbbr: 'SEDUC-CEFAF',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Anos Finais do Ensino Fundamental',
+          newAbbr: 'SEDUC-COAFIN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Ensino Médio',
+          oldAbbr: 'SEDUC-CEM',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Ensino Médio - Formação Geral Básica',
+          newAbbr: 'SEDUC-COEM-FGB',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Avaliação Educacional',
+          oldAbbr: 'SEDUC-DAVED',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Avaliação',
+          newAbbr: 'SEDUC-DIAVAL',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Planejamento e Análise de Avaliações',
+          oldAbbr: 'SEDUC-CEPAV',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Gestão de Resultados Educacionais',
+          newAbbr: 'SEDUC-COGRE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Aplicação de Avaliações',
+          oldAbbr: 'SEDUC-CEAPA',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Monitoramento de Resultados',
+          newAbbr: 'SEDUC-COMOR',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Assistência Técnica do Gabinete para Educação Profissional',
+          oldAbbr: 'SEDUC-ATGPRO',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Educação Profissional',
+          newAbbr: 'SEDUC-DIEP',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Gestão Pedagógica',
+          oldAbbr: 'SEDUC-CGPED',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Gestão Pedagógica',
+          newAbbr: 'SEDUC-DIGEP',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Inovação',
+          oldAbbr: 'SEDUC-CEIN',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Educação em Tempo Integral',
+          newAbbr: 'SEDUC-COETIN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Educação de Jovens e Adultos',
+          oldAbbr: 'SEDUC-CEJA',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Educação de Jovens e Adultos',
+          newAbbr: 'SEDUC-COEJA',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Escola de Formação Aperfeiçoamento Dos Profissionais da Educação do Esp - Paulo Renato Costa Souza',
+          oldAbbr: 'SEDUC-EFAPE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName:
+            'Escola de Formação e Aperfeiçoamento dos Profissionais da Educação do Estado de São Paulo "Paulo Renato Costa Souza" - EFAPE',
+          newAbbr: 'SEDUC-EFAPE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assistência Técnica do Coordenador EFAPE',
+          oldAbbr: 'SEDUC-ATEFAPE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria Técnica EFAPE',
+          newAbbr: 'SEDUC-ATEFAPE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'DEPARTAMENTO DE APOIO LOGÍSTICO',
+          oldAbbr: 'SEDUC-DELOG',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria de Apoio Logístico às Formações',
+          newAbbr: 'SEDUC-ALOG',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Departamento de Programas de Formação e Educação Continuada',
+          oldAbbr: 'SEDUC-DEPEC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Formação Docente e Administrativa',
+          newAbbr: 'SEDUC-DIFDA',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Formação e Desenvolvimento Profissional de Professores da Educação Básica',
+          oldAbbr: 'SEDUC-CEFOP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Formação de Professores',
+          newAbbr: 'SEDUC-COPROF',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Formação e Desenvolvimento Profissional de Gestores da Educação Básica',
+          oldAbbr: 'SEDUC-CEFOG',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName:
+            'Coordenadoria de Formação de Apoio Escolar e Administrativo',
+          newAbbr: 'SEDUC-COAAD',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Departamento de Recursos Didáticos e Tecnológicos de Educação a Distância',
+          oldAbbr: 'SEDUC-DETED',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Tecnologias Educacionais',
+          newAbbr: 'SEDUC-DITEC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Criação e Produção',
+          oldAbbr: 'SEDUC-CCRIP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Criação e Produção de Ações Formativas',
+          newAbbr: 'SEDUC-COPAF',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Avaliação e Certificação',
+          oldAbbr: 'SEDUC-CEAC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Monitoramento, Avaliação e Certificação',
+          newAbbr: 'SEDUC-COMAC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Infraestrutura e Tecnologia Aplicada',
+          oldAbbr: 'SEDUC-CITEC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Tecnologia Aplicada à Educação',
+          newAbbr: 'SEDUC-COTAE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Referência Em Educação Mário Covas',
+          oldAbbr: 'SEDUC-CREMC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão Centro de Referência em Educação "Mario Covas"',
+          newAbbr: 'SEDUC-DCREMC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Subsecretaria de Acompanhamento da Grande São Paulo',
+          oldAbbr: 'SEDUC-SAGESP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Subsecretaria de Articulação da Rede de Ensino',
+          newAbbr: 'SEDUC-SUART',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Gerenciamento da Municipalização do Ensino',
+          oldAbbr: 'SEDUC-CEGEM',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Municipalização',
+          newAbbr: 'SEDUC-COMUN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Programa de Melhoria de Convivência e Proteção Escolar',
+          oldAbbr: 'SEDUC-CONVIVASP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Clima, Convivência e Proteção Escolar',
+          newAbbr: 'SEDUC-DICLIPE',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Projetos e Articulação de Iniciativas com Pais e Alunos',
+          oldAbbr: 'SEDUC-CEART',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Grêmios Estudantis',
+          newAbbr: 'SEDUC-SEGREM',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Departamento de Modalidades Educacionais e Atendimento Especializado',
+          oldAbbr: 'SEDUC-DEMOD',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Educação Especial e Inclusão',
+          newAbbr: 'SEDUC-DIESPI',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Apoio Pedagógico',
+          oldAbbr: 'SEDUC-CAPE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Educação Especial',
+          newAbbr: 'SEDUC-DVESP',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Inclusão Educacional',
+          oldAbbr: 'SEDUC-CINC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Educação Inclusiva',
+          newAbbr: 'SEDUC-COEIN',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Coordenadoria de Informação, Tecnologia, Evidência e Matrícula',
+          oldAbbr: 'SEDUC-CITEM',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Subsecretaria de Planejamento da Rede Escolar',
+          newAbbr: 'SEDUC-SUPLAN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assistência Técnica do Coordenador CITEM',
+          oldAbbr: 'SEDUC-ATCITEM',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName:
+            'Assessoria Técnica Subsecretaria de Planejamento da Rede Escolar',
+          newAbbr: 'SEDUC-ATSUPLAN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Demanda Escolar e Planejamento da Rede Física',
+          oldAbbr: 'SEDUC-CEDEP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Planejamento e Gestão da Rede Escolar',
+          newAbbr: 'SEDUC-DIPLAG',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Informação e Monitoramento',
+          oldAbbr: 'SEDUC-DEINF',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Informação e Monitoramento',
+          newAbbr: 'SEDUC-COINFO',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Informação e Indicadores Educacionais',
+          oldAbbr: 'SEDUC-CEIND',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Informação e Indicadores Educacionais',
+          newAbbr: 'SEDUC-DINFE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Governo Aberto',
+          oldAbbr: 'SEDUC-CGAB',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Coleta do Censo Escolar',
+          newAbbr: 'SEDUC-DCCESC',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Departamento de Planejamento e Gestão da Rede Escolar e Matrícula',
+          oldAbbr: 'SEDUC-DGREM',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Matrícula e Vida Escolar',
+          newAbbr: 'SEDUC-DIMAV',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Matrícula',
+          oldAbbr: 'SEDUC-CEMAT',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Matrícula',
+          newAbbr: 'SEDUC-COMAT',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Vida Escolar',
+          oldAbbr: 'SEDUC-CVESC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Vida Escolar',
+          newAbbr: 'SEDUC-COVESC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Coordenadoria de Gestão de Recursos Humanos',
+          oldAbbr: 'SEDUC-CGRH',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Pessoas',
+          newAbbr: 'SEDUC-DIPES',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assistência Técnica do Coordenador CGRH',
+          oldAbbr: 'SEDUC-ATCGRH',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria Técnica Diretoria de Pessoas',
+          newAbbr: 'SEDUC-ATDIPES',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Acompanhamento Judicial - CGRH',
+          oldAbbr: 'SEDUC-ATCGRH-AJ',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Acompanhamento Judicial - DIPES',
+          newAbbr: 'SEDUC-ATDIPES-AJ',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Apoio Administrativo CGRH',
+          oldAbbr: 'SEDUC-NACGRH',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Núcleo de Apoio Administrativo DIPES',
+          newAbbr: 'SEDUC-NADIPES',
+          category: 'mudança',
+        },
+        {
+          oldName: 'SODEXO Vale Refeição/DEAPE',
+          oldAbbr: 'SEDUC-CARTAOVR-DEAPE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'SODEXO Vale Refeição/COAPES',
+          newAbbr: 'SEDUC-CARTAOVR-COAPES',
+          category: 'mudança',
+        },
+        {
+          oldName: 'SODEXO Vale Alimentação/DEAPE',
+          oldAbbr: 'SEDUC-CARTAOVA-DEAPE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'SODEXO Vale Alimentação/COAPES',
+          newAbbr: 'SEDUC-CARTAOVA-COAPES',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Bônus - Pagamento',
+          oldAbbr: 'SEDUC-DEAPE-BONUS',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Bônus - Pagamento',
+          newAbbr: 'SEDUC-COAPES-BONUS',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Cargos e Funções',
+          oldAbbr: 'SEDUC-CECAF',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Gestão de Cargos e Funções',
+          newAbbr: 'SEDUC-DCARF',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Ingresso e Movimentação',
+          oldAbbr: 'SEDUC-CEMOV',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Cargos Funções e Mobilidade Funcional',
+          newAbbr: 'SEDUC-COMOB',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Planejamento do Quadro de Gestão da Educação',
+          oldAbbr: 'SEDUC-CEPGE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Gestão Estratégica de Pessoas',
+          newAbbr: 'SEDUC-COGEP',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Vida Funcional',
+          oldAbbr: 'SEDUC-CEVIF',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Gestão Funcional',
+          newAbbr: 'SEDUC-COGEF',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Qualidade de Vida',
+          oldAbbr: 'SEDUC-CEQV',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Saúde Ocupacional',
+          newAbbr: 'SEDUC-DSOC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Administração de Pessoal',
+          oldAbbr: 'SEDUC-DEAPE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Administração de Pessoal',
+          newAbbr: 'SEDUC-COAPES',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Planejamento, Estudos e Análises',
+          oldAbbr: 'SEDUC-CEPEA',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Gerenciamento de Dados',
+          newAbbr: 'SEDUC-DGERD',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Frequência e Pagamento',
+          oldAbbr: 'SEDUC-CEPAG',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Folha de Pagamento',
+          newAbbr: 'SEDUC-DFOLP',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Coordenadoria de Orçamento e Finanças',
+          oldAbbr: 'SEDUC-COFI',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Orçamento e Finanças',
+          newAbbr: 'SEDUC-DIORF',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assistência Técnica do Coordenador COFI',
+          oldAbbr: 'SEDUC-ATCOFI',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria Técnica Diretoria de Orçamento e Finanças',
+          newAbbr: 'SEDUC-ATDIORF',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Gestão do Fundeb',
+          oldAbbr: 'SEDUC-FUNDEB',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Gestão de Receitas da Educação',
+          newAbbr: 'SEDUC-COGERE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Orçamento',
+          oldAbbr: 'SEDUC-DEORC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Planejamento Orçamentário',
+          newAbbr: 'SEDUC-COPLAN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Programação Orçamentária',
+          oldAbbr: 'SEDUC-CEPRO',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Elaboração e Planejamento Orçamentário',
+          newAbbr: 'SEDUC-DPOR',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Execução Orçamentária',
+          oldAbbr: 'SEDUC-CEORC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Acompanhamento e Controle Orçamentário',
+          newAbbr: 'SEDUC-DCOR',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Custos',
+          oldAbbr: 'SEDUC-CCUST',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Informação de Custos',
+          newAbbr: 'SEDUC-DCUSTO',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Finanças',
+          oldAbbr: 'SEDUC-DEFIN',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Execução Financeira',
+          newAbbr: 'SEDUC-COEFIN',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Programação e Execução Financeira Das Unidades Centrais',
+          oldAbbr: 'SEDUC-CEFIN',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Programação Financeira',
+          newAbbr: 'SEDUC-DPROF',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Programação Financeira Das Diretorias de Ensino',
+          oldAbbr: 'SEDUC-CPDES',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Execução Financeira e Fiscal',
+          newAbbr: 'SEDUC-DPFIS',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Prestação de Contas de Convênios',
+          oldAbbr: 'SEDUC-NPCO',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Prestação de Contas',
+          newAbbr: 'SEDUC-COPEC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Coordenadoria de Infraestrutura e Serviços Escolares',
+          oldAbbr: 'SEDUC-CISE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Infraestrutura e Serviços Escolares',
+          newAbbr: 'SEDUC-DIISE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assistência Técnica do Coordenador CISE',
+          oldAbbr: 'SEDUC-ATCISE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName:
+            'Assessoria Técnica Diretoria de Infraestrutura e Serviços Escolares',
+          newAbbr: 'SEDUC-ATDIISE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Apoio Administrativo Cise',
+          oldAbbr: 'SEDUC-NACISE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Núcleo de Apoio Administrativo DIISE',
+          newAbbr: 'SEDUC-NADIISE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Gestão de Infraestrutura',
+          oldAbbr: 'SEDUC-DGINF',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Gestão de Infraestrutura',
+          newAbbr: 'SEDUC-COGIF',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Planejamento e Acompanhamento de Obras e Serviços de Engenharia',
+          oldAbbr: 'SEDUC-CEPLAE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName:
+            'Divisão de Planejamento e Acompanhamento de Obras e Serviços de Engenharia',
+          newAbbr: 'SEDUC-DPLAN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Equipamentos e Materiais',
+          oldAbbr: 'SEDUC-CEQUI',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Materiais de uso Escolar',
+          newAbbr: 'SEDUC-DMATESC',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Normatização e Acompanhamento de Utilidades Públicas',
+          oldAbbr: 'SEDUC-CENUP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Serviços Prediais e de Apoio',
+          newAbbr: 'SEDUC-DISPA',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Departamento de Serviços de Transporte e Assistência Ao Aluno',
+          oldAbbr: 'SEDUC-DEST',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Transporte Escolar',
+          newAbbr: 'SEDUC-COTRANS',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Transporte Escolar',
+          oldAbbr: 'SEDUC-CTESC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Transporte Escolar',
+          newAbbr: 'SEDUC-DTRAESC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Alimentação Escolar',
+          oldAbbr: 'SEDUC-DAESC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Alimentação Escolar',
+          newAbbr: 'SEDUC-COALE',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Supervisão e Controle do Programa de Alimentação Escolar',
+          oldAbbr: 'SEDUC-CEPAE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Planejamento da Alimentação',
+          newAbbr: 'SEDUC-DPALI',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Serviços de Nutrição',
+          oldAbbr: 'SEDUC-CENUT',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Serviços de Nutrição',
+          newAbbr: 'SEDUC-DNUT',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Logística de Distribuição',
+          oldAbbr: 'SEDUC-CELOG',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Logística de Distribuição',
+          newAbbr: 'SEDUC-DLID',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Administração',
+          oldAbbr: 'SEDUC-DA',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria Geral de Suporte Administrativo',
+          newAbbr: 'SEDUC-COGESPA',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Assistência Técnica Departamento de Administração',
+          oldAbbr: 'SEDUC-ATDA',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Programação de Serviço',
+          newAbbr: 'SEDUC-COPROG',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Transportes',
+          oldAbbr: 'SEDUC-CTRAN',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Transporte',
+          newAbbr: 'SEDUC-DTRAN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Patrimônio',
+          oldAbbr: 'SEDUC-CEPAT',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Patrimônio',
+          newAbbr: 'SEDUC-DPAT',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Comunicações Administrativas',
+          oldAbbr: 'SEDUC-CECAD',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Departamento de Gestão Documental',
+          newAbbr: 'SEDUC-DPGDOC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Zeladoria',
+          oldAbbr: 'SEDUC-CEZEL',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Zeladoria',
+          newAbbr: 'SEDUC-DZEL',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Suprimentos e Licitações',
+          oldAbbr: 'SEDUC-DESUP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Processamento de Licitações',
+          newAbbr: 'SEDUC-DIPLIC',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Planejamento e Normatização de Compras e Licitações',
+          oldAbbr: 'SEDUC-CECOL',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Planejamento e Normatização',
+          newAbbr: 'SEDUC-COPNOR',
+          category: 'mudança',
+        },
+        {
+          oldName:
+            'Centro de Normatização e Controle de Serviços Terceirizados',
+          oldAbbr: 'SEDUC-CENOT',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Divisão de Pré Contratos',
+          newAbbr: 'SEDUC-DPREC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Processamento de Licitações e Contratos',
+          oldAbbr: 'SEDUC-CPLIC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Processamento de Licitações',
+          newAbbr: 'SEDUC-COPLIC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Controle de Contratos e Convênios',
+          oldAbbr: 'SEDUC-DECON',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Diretoria de Contratos e Convênios',
+          newAbbr: 'SEDUC-DICON',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Acompanhamento e Controle de Contratos',
+          oldAbbr: 'SEDUC-CCONT',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Contratos',
+          newAbbr: 'SEDUC-CONTR',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Convênios',
+          oldAbbr: 'SEDUC-CCONV',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Convênios',
+          newAbbr: 'SEDUC-CONVE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Departamento de Tecnologia de Sistemas',
+          oldAbbr: 'SEDUC-DETEC',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria Geral de Estratégia e Governança Digital',
+          newAbbr: 'SEDUC-COEGD',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Planejamento e Integração de Sistemas',
+          oldAbbr: 'SEDUC-CPLIS',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Planejamento de Tecnologia',
+          newAbbr: 'SEDUC-COPLATEC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Infraestruturas de Rede',
+          oldAbbr: 'SEDUC-CEIR',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Coordenadoria de Infraestrutura de Tecnologia',
+          newAbbr: 'SEDUC-COINTEC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Bônus - Indicadores',
+          oldAbbr: 'SEDUC-CITEM-BONUS',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Bônus - Indicadores',
+          newAbbr: 'SEDUC-SUPLAN-BONUS',
+          category: 'mudança',
+        },
+
+        {
+          oldName: 'Diretoria de Ensino',
+          oldAbbr: 'SEDUC-DE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Unidade Regional de Ensino',
+          newAbbr: 'SEDUC-URE',
+          category: 'mudança',
+        },
+
+        {
+          oldName: 'Assistência Técnica',
+          oldAbbr: 'SEDUC-AT',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Assessoria Técnica',
+          newAbbr: 'SEDUC-ASURE',
+          category: 'mudança',
+        },
+
+        {
+          oldName: 'Equipe de Supervisão',
+          oldAbbr: 'SEDUC-ESE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Equipe de Supervisão de Ensino',
+          newAbbr: 'SEDUC-ESE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo Pedagógico',
+          oldAbbr: 'SEDUC-NPE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Equipe de Especialistas em Currículo',
+          newAbbr: 'SEDUC-EEC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Informações Educacionais e Gestão da Rede Escolar',
+          oldAbbr: 'SEDUC-CIE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Serviço de Gestão da Rede Escolar',
+          newAbbr: 'SEDUC-SEGRE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Informação Educacional e Tecnologia',
+          oldAbbr: 'SEDUC-NIT',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Serviço de Informações Educacionais e Tecnologia',
+          newAbbr: 'SEDUC-SEINTEC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Gestão da Rede Escolar e Matrícula',
+          oldAbbr: 'SEDUC-NRM',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Seção de Matrícula',
+          newAbbr: 'SEDUC-SEMAT',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Vida Escolar',
+          oldAbbr: 'SEDUC-NVE',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Seção de Vida Escolar',
+          newAbbr: 'SEDUC-SEVESC',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Recursos Humanos',
+          oldAbbr: 'SEDUC-CRH',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Serviço de Pessoas',
+          newAbbr: 'SEDUC-SEPES',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Administração de Pessoal',
+          oldAbbr: 'SEDUC-NAP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Seção de Administração de Pessoal',
+          newAbbr: 'SEDUC-SEAPE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Frequência e Pagamento',
+          oldAbbr: 'SEDUC-NFP',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Seção de Frequência e Pagamento',
+          newAbbr: 'SEDUC-SEFREP',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Centro de Administração, Finanças e Infraestrutura',
+          oldAbbr: 'SEDUC-CAF',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Serviço de Administração e Finanças',
+          newAbbr: 'SEDUC-SEAFIN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Finanças',
+          oldAbbr: 'SEDUC-NFI',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Seção de Finanças',
+          newAbbr: 'SEDUC-SEFIN',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Compras e Serviços',
+          oldAbbr: 'SEDUC-NCS',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Seção de Compras e Serviços',
+          newAbbr: 'SEDUC-SECOMSE',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Obras e Manutenção Escolar',
+          oldAbbr: 'SEDUC-NOM',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Serviço de Obras e Manutenção Escolar',
+          newAbbr: 'SEDUC-SEOM',
+          category: 'mudança',
+        },
+        {
+          oldName: 'Núcleo de Administração',
+          oldAbbr: 'SEDUC-NAD',
+          action: 'TROCAR NOME e ABREVIATURA',
+          newName: 'Setor de Fiscalização',
+          newAbbr: 'SEDUC-SEFISC',
+          category: 'mudança',
+        },
+      ];
+
+      const mantidas = [
+        {
+          oldName: 'Gabinete do Secretário',
+          oldAbbr: 'SEDUC-GS',
+          action: 'MANTER',
+          newName: 'Gabinete do Secretário',
+          newAbbr: 'SEDUC-GS',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Chefia de Gabinete',
+          oldAbbr: 'SEDUC-CG',
+          action: 'MANTER',
+          newName: 'Chefia de Gabinete',
+          newAbbr: 'SEDUC-CG',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Ouvidoria',
+          oldAbbr: 'SEDUC-OUVID',
+          action: 'MANTER',
+          newName: 'Ouvidoria',
+          newAbbr: 'SEDUC-OUVID',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Consultoria Jurídica',
+          oldAbbr: 'SEDUC-CJ',
+          action: 'MANTER',
+          newName: 'Consultoria Jurídica',
+          newAbbr: 'SEDUC-CJ',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Núcleo de Apoio Administrativo EFAPE',
+          oldAbbr: 'SEDUC-NAEFAPE',
+          action: 'MANTER',
+          newName: 'Núcleo de Apoio Administrativo EFAPE',
+          newAbbr: 'SEDUC-NAEFAPE',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Núcleo de Protocolo e Expedição',
+          oldAbbr: 'SEDUC-NUPROE',
+          action: 'MANTER',
+          newName: 'Núcleo de Protocolo e Expedição',
+          newAbbr: 'SEDUC-NUPROE',
+          category: 'mantida',
+        },
+        {
+          oldName: 'NÚCLEO DE DOCUMENTAÇÃO E ARQUIVO',
+          oldAbbr: 'SEDUC-NDOC',
+          action: 'MANTER',
+          newName: 'NÚCLEO DE DOCUMENTAÇÃO E ARQUIVO',
+          newAbbr: 'SEDUC-NDOC',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Publicações Gabinete',
+          oldAbbr: 'SEDUC-PUB-GAB',
+          action: 'MANTER',
+          newName: 'Publicações Gabinete',
+          newAbbr: 'SEDUC-PUB-GAB',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Núcleo de Apoio Administrativo Chefia de Gabinete',
+          oldAbbr: 'SEDUC-NACG',
+          action: 'MANTER',
+          newName: 'Núcleo de Apoio Administrativo Chefia de Gabinete',
+          newAbbr: 'SEDUC-NACG',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Demanda Controladoria',
+          oldAbbr: 'SEDUC-DC-CG',
+          action: 'MANTER',
+          newName: 'Demanda Controladoria',
+          newAbbr: 'SEDUC-DC-CG',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Centro de Vida Escolar - Certificações',
+          oldAbbr: 'SEDUC-CVECF',
+          action: 'MANTER',
+          newName: 'Centro de Vida Escolar - Certificações',
+          newAbbr: 'SEDUC-CVECF',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Assistência Técnica Chefia de Gabinete Judicial',
+          oldAbbr: 'SEDUC-ATCG-JUDICIAL',
+          action: 'MANTER',
+          newName: 'Assistência Técnica Chefia de Gabinete Judicial',
+          newAbbr: 'SEDUC-ATCG-JUDICIAL',
+          category: 'mantida',
+        },
+        {
+          oldName: 'AGENDA DO GABINETE',
+          oldAbbr: 'SEDUC-AGENDA',
+          action: 'MANTER',
+          newName: 'AGENDA DO GABINETE',
+          newAbbr: 'SEDUC-AGENDA',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Arquivo',
+          oldAbbr: 'SEDUC-ARQ',
+          action: 'MANTER',
+          newName: 'Arquivo',
+          newAbbr: 'SEDUC-ARQ',
+          category: 'mantida',
+        },
+        {
+          oldName: 'Protocolo ',
+          oldAbbr: 'SEDUC-PROT',
+          action: 'MANTER',
+          newName: 'Protocolo ',
+          newAbbr: 'SEDUC-PROT',
+          category: 'mantida',
+        },
+      ];
+      const extintas = [
+        {
+          oldName: 'Subsecretaria de Acompanhamento do Interior',
+          oldAbbr: 'SEDUC-SAINTER',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName:
+            'Departamento de Planejamento e Normatização de Recursos Humanos',
+          oldAbbr: 'SEDUC-DEPLAN',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Centro de Serviços de Assistência Ao Aluno',
+          oldAbbr: 'SEDUC-CSERV',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Administração de Convênios',
+          oldAbbr: 'SEDUC-NADC',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Centro de Instalações e Equipamentos',
+          oldAbbr: 'SEDUC-CIEQ',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Escritório de Normativos',
+          oldAbbr: 'SEDUC-ENOR',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Centro de Apoio Técnico',
+          oldAbbr: 'SEDUC-CAT',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Expediente I',
+          oldAbbr: 'SEDUC-NEXP1',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Expediente II',
+          oldAbbr: 'SEDUC-NEXP2',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Expediente III',
+          oldAbbr: 'SEDUC-NEXP3',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Expediente IV',
+          oldAbbr: 'SEDUC-NEXP4',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName:
+            'GRUPO SETORIAL DE PLANEJAMENTO, ORÇAMENTO E FINANÇAS PÚBLICAS',
+          oldAbbr: 'SEDUC-GSPOF',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Armazenamento I',
+          oldAbbr: 'SEDUC-NARM1',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Armazenamento II',
+          oldAbbr: 'SEDUC-NARM2',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Armazenamento III',
+          oldAbbr: 'SEDUC-NARM3',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Armazenamento IV',
+          oldAbbr: 'SEDUC-NARM4',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'NÚCLEO DE PROGRAMAÇÃO DO ATENDIMENTO',
+          oldAbbr: 'SEDUC-NPROG',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'NÚCLEO DE OPERAÇÃO DO ATENDIMENTO',
+          oldAbbr: 'SEDUC-NEOPE',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'UNIDADE DE COOPERAÇÃO TÉCNICA E PESQUISA',
+          oldAbbr: 'SEDUC-UCTEC',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'SECRETARIA GERAL',
+          oldAbbr: 'SEDUC-SEGER',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Memória e Acervo Histórico',
+          oldAbbr: 'SEDUC-NUMAH',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Biblioteca e Documentação',
+          oldAbbr: 'SEDUC-NBDOC',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Apoio Administrativo CITEM',
+          oldAbbr: 'SEDUC-NACITEM',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Apoio Administrativo COFI',
+          oldAbbr: 'SEDUC-NACOFI',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Apoio Administrativo COPED',
+          oldAbbr: 'SEDUC-NACOPED',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Comissão de Avaliação de Documentos e Acesso',
+          oldAbbr: 'SEDUC-CADA',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Centro de Suporte Operacional',
+          oldAbbr: 'SEDUC-CESOP',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Gestão Educacional Paulista',
+          oldAbbr: 'SEDUC-GEP',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Adiantamento I',
+          oldAbbr: 'SEDUC-NAD1',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Adiantamento II',
+          oldAbbr: 'SEDUC-NAD2',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Adiantamento III',
+          oldAbbr: 'SEDUC-NAD3',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Adiantamento IV',
+          oldAbbr: 'SEDUC-NAD4',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Núcleo de Apoio Administrativo',
+          oldAbbr: 'SEDUC-NA',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+        {
+          oldName: 'Centro de Legislação de Pessoal e Normatização',
+          oldAbbr: 'SEDUC-CELEP',
+          action: 'INATIVAR',
+          newName: '',
+          newAbbr: '',
+          category: 'extinta',
+        },
+      ];
+      const novas = [
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Assessoria Técnica Secretaria Executiva',
+          newAbbr: 'SEDUC-ATSE',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Assessoria de Imprensa e Redes Sociais',
+          newAbbr: 'SEDUC-AIMPRES',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Currículo',
+          newAbbr: 'SEDUC-CORRIC',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Serviço de Gestão de Projetos',
+          newAbbr: 'SEDUC-SEGEP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Ensino Médio - Itinerários Formativos',
+          newAbbr: 'SEDUC-COEM-IF',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Planejamento Editorial',
+          newAbbr: 'SEDUC-COPLANE',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName:
+            'Coordenadoria de Apoio Pedagógico da Educação Profissional',
+          newAbbr: 'SEDUC-COAEP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Operações da Educação Profissional',
+          newAbbr: 'SEDUC-COOEP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Apoio à Empregabilidade',
+          newAbbr: 'SEDUC-COEMP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName:
+            'Divisão de Planejamento e Monitoramento da Educação Profissional',
+          newAbbr: 'SEDUC-DPMEP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Formação da Educação Profissional',
+          newAbbr: 'SEDUC-DFEP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Recomposição das Aprendizagens',
+          newAbbr: 'SEDUC-CORAP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName:
+            'Coordenadoria de acompanhamento pedagógico e articulação com a Formação docente',
+          newAbbr: 'SEDUC-COAPAF',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão Pedagógica',
+          newAbbr: 'SEDUC-DIP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Gestão e de Dados',
+          newAbbr: 'SEDUC-DGD-COETIN',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Diretoria de Modalidades Educacionais',
+          newAbbr: 'SEDUC-DIMOD',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Plataformas Educacionais',
+          newAbbr: 'SEDUC-COPLAE',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Formação entre Pares',
+          newAbbr: 'SEDUC-COPAR',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Diretoria de Formação de Lideranças',
+          newAbbr: 'SEDUC-DILID',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Gestão Pedagógica Formativa',
+          newAbbr: 'SEDUC-COGEFOR',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Acompanhamento',
+          newAbbr: 'SEDUC-COAC',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName:
+            'Assessoria Técnica Subsecretaria de Articulação da Rede de Ensino',
+          newAbbr: 'SEDUC-ATSUART',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Assessoria de Acompanhamento das Unidades Regionais',
+          newAbbr: 'SEDUC-AURE',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Diretoria de Cooperação com Municípios',
+          newAbbr: 'SEDUC-DICOM',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Gestão Pedagógica',
+          newAbbr: 'SEDUC-COGP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Clima e Convivência Escolar',
+          newAbbr: 'SEDUC-COCLI',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Programas e Parcerias',
+          newAbbr: 'SEDUC-COPPAR',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Proteção Escolar',
+          newAbbr: 'SEDUC-COPES',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Demanda Escolar',
+          newAbbr: 'SEDUC-CODESC',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName:
+            'Coordenadoria de Planejamento de Rede de Médio e Longo Prazo',
+          newAbbr: 'SEDUC-COPLAR',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Educação Especial',
+          newAbbr: 'SEDUC-COESP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Diretoria de Ciência de Dados e Evidências Educacionais',
+          newAbbr: 'SEDUC-DIDEV',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName:
+            'Coordenadoria de Análise de Dados e Inteligência Artificial',
+          newAbbr: 'SEDUC-COADIA',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Inteligência de Negócios',
+          newAbbr: 'SEDUC-COIN',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Subsecretaria de Gestão Corporativa',
+          newAbbr: 'SEDUC-SUCOR',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Assessoria Técnica Subsecretaria de Gestão Corporativa',
+          newAbbr: 'SEDUC-ATSUCOR',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Ingresso',
+          newAbbr: 'SEDUC-DINGRE',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Seleção e Gestão de Desempenho',
+          newAbbr: 'SEDUC-DGD-COGEP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Capacitação',
+          newAbbr: 'SEDUC-DCAP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Contagem de Tempo',
+          newAbbr: 'SEDUC-DTEMP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Aposentadoria',
+          newAbbr: 'SEDUC-DAPO',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Vantagens',
+          newAbbr: 'SEDUC-DVAN',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Adaptação e Readaptação',
+          newAbbr: 'SEDUC-DDAPT',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Vida Funcional',
+          newAbbr: 'SEDUC-DVIF',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Folha',
+          newAbbr: 'SEDUC-DFL',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Frequência',
+          newAbbr: 'SEDUC-DFREQ',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Mobilidade Funcional',
+          newAbbr: 'SEDUC-DMOB',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Setor de Gestão de Servidores Municipalizados',
+          newAbbr: 'SEDUC-SEGEM',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Atribuição de Aulas',
+          newAbbr: 'SEDUC-DAA',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de previsão e Controle de Receitas',
+          newAbbr: 'SEDUC-DPREC-DIORF',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Controle e Liberação de Recursos',
+          newAbbr: 'SEDUC-DCREC',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Prestação de Contas de Parcerias',
+          newAbbr: 'SEDUC-DCP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName:
+            'Divisão de Prestação de Contas de Programas Estaduais e Federais',
+          newAbbr: 'SEDUC-DPEF',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Serviços de Apoio Escolar',
+          newAbbr: 'SEDUC-COSAE',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Setor de Logística',
+          newAbbr: 'SEDUC-SELOG',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Execução de Serviço',
+          newAbbr: 'SEDUC-COEX',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Divisão de Pesquisa de Preços',
+          newAbbr: 'SEDUC-DPEP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Procedimento Sancionatório',
+          newAbbr: 'SEDUC-COPSA',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Coordenadoria de Gestão do Desenvolvimento de Projetos',
+          newAbbr: 'SEDUC-COGDP',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Seção de Tecnologia',
+          newAbbr: 'SEDUC-SETEC',
+          category: 'nova',
+        },
+        {
+          oldName: '',
+          oldAbbr: '',
+          action: 'CRIAR',
+          newName: 'Departamento de Esporte e Cultura',
+          newAbbr: 'SEDUC-DEC',
+          category: 'nova',
+        },
+      ];
+
+      // Retorna todos os dados combinados
+      return [...mudancas, ...mantidas, ...extintas, ...novas];
+    }
+
+    // Initialize the application
+    function initializeData() {
+      unitsData = parseData();
+      filteredData = [...unitsData];
+      setupFilters();
+      updateStats();
+      renderData();
+    }
+
+    function normalizeAction(action) {
+      return action
+        .replace(/\s+e\s+/g, ' e ')
+        .replace(/TROCAR NOME e ABREVIATURA/g, 'TROCAR')
+        .trim();
+    }
+
+    function setupFilters() {
+      const actionFilter = document.getElementById('actionFilter');
+      const searchInput = document.getElementById('searchInput');
+
+      // Populate action filter
+      const actions = [
+        'Todos',
+        ...new Set(unitsData.map((unit) => normalizeAction(unit.action))),
+      ];
+      actionFilter.innerHTML = actions
+        .map((action) => `<option value="${action}">${action}</option>`)
+        .join('');
+
+      // Add event listeners
+      actionFilter.addEventListener('change', filterData);
+      searchInput.addEventListener('input', filterData);
+    }
+
+    function filterData() {
+      const actionFilter = document.getElementById('actionFilter').value;
+      const searchTerm = document
+        .getElementById('searchInput')
+        .value.toLowerCase();
+
+      filteredData = unitsData.filter((unit) => {
+        const matchesAction =
+          actionFilter === 'Todos' ||
+          normalizeAction(unit.action) === actionFilter;
+        const matchesSearch =
+          !searchTerm ||
+          (unit.oldName && unit.oldName.toLowerCase().includes(searchTerm)) ||
+          (unit.newName && unit.newName.toLowerCase().includes(searchTerm)) ||
+          (unit.oldAbbr && unit.oldAbbr.toLowerCase().includes(searchTerm)) ||
+          (unit.newAbbr && unit.newAbbr.toLowerCase().includes(searchTerm));
+
+        return matchesAction && matchesSearch;
+      });
+
+      updateStats();
+      renderData();
+    }
+
+    function updateStats() {
+      const totalUnits = document.getElementById('totalUnits');
+      const createdUnits = document.getElementById('createdUnits');
+      const modifiedUnits = document.getElementById('modifiedUnits');
+      const extinctUnits = document.getElementById('extinctUnits');
+      const maintainedUnits = document.getElementById('maintainedUnits');
+
+      const stats = filteredData.reduce(
+        (acc, unit) => {
+          const action = normalizeAction(unit.action);
+          if (action === 'CRIAR') acc.created++;
+          else if (action === 'MANTER') acc.maintained++;
+          else if (action === 'INATIVAR') acc.extinct++;
+          else if (action === 'TROCAR') acc.modified++;
+          else acc.modified++;
+          acc.total++;
+          return acc;
+        },
+        { total: 0, created: 0, modified: 0, maintained: 0, extinct: 0 }
+      );
+
+      if (totalUnits) totalUnits.textContent = stats.total;
+      if (createdUnits) createdUnits.textContent = stats.created;
+      if (modifiedUnits) modifiedUnits.textContent = stats.modified;
+      if (maintainedUnits) maintainedUnits.textContent = stats.maintained;
+      if (extinctUnits) extinctUnits.textContent = stats.extinct;
+    }
+
+    function renderData() {
+      if (currentView === 'comparison') {
+        renderComparisonView();
+      } else {
+        renderDetailedView();
+      }
+    }
+
+    function renderComparisonView() {
+      const beforeContainer = document.getElementById('beforeContent');
+      const afterContainer = document.getElementById('afterContent');
+
+      if (!beforeContainer || !afterContainer) return;
+
+      // Clear existing content
+      beforeContainer.innerHTML = '';
+      afterContainer.innerHTML = '';
+
+      filteredData.forEach((unit) => {
+        // Create before card
+        if (unit.oldName) {
+          const beforeCard = createUnitCard(
+            unit.oldName,
+            unit.oldAbbr,
+            unit.action,
+            'before'
+          );
+          beforeContainer.appendChild(beforeCard);
+        }
+
+        // Create after card
+        if (unit.newName) {
+          const afterCard = createUnitCard(
+            unit.newName,
+            unit.newAbbr,
+            unit.action,
+            'after'
+          );
+          afterContainer.appendChild(afterCard);
+        }
+      });
+    }
+
+    function switchTab(tabName) {
+      currentTab = tabName;
+
+      // Update tab buttons
+      document.querySelectorAll('.tab-button').forEach((btn) => {
+        btn.classList.remove('active');
+      });
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+
+      // Update tab content
+      document.querySelectorAll('.tab-content').forEach((content) => {
+        content.classList.remove('active');
+      });
+      document.getElementById(`content-${tabName}`).classList.add('active');
+
+      renderDetailedView();
+    }
+
+    function renderDetailedView() {
+      if (currentView !== 'detailed') return;
+
+      // Update tab counters
+      const categoryCounts = {
+        mudancas: filteredData.filter((unit) => unit.category === 'mudança')
+          .length,
+        mantidas: filteredData.filter((unit) => unit.category === 'mantida')
+          .length,
+        extintas: filteredData.filter((unit) => unit.category === 'extinta')
+          .length,
+        novas: filteredData.filter((unit) => unit.category === 'nova').length,
+      };
+
+      // Update counters in tabs
+      Object.keys(categoryCounts).forEach((category) => {
+        const counter = document.getElementById(`counter-${category}`);
+        if (counter) counter.textContent = categoryCounts[category];
+      });
+
+      // Filter data by current tab
+      let tabData = [];
+      switch (currentTab) {
+        case 'mudancas':
+          tabData = filteredData.filter(
+            (unit) => unit.category === 'mudança'
+          );
+          break;
+        case 'mantidas':
+          tabData = filteredData.filter(
+            (unit) => unit.category === 'mantida'
+          );
+          break;
+        case 'extintas':
+          tabData = filteredData.filter(
+            (unit) => unit.category === 'extinta'
+          );
+          break;
+        case 'novas':
+          tabData = filteredData.filter((unit) => unit.category === 'nova');
+          break;
+      }
+
+      const contentContainer = document.getElementById(
+        `content-${currentTab}`
+      );
+      if (!contentContainer) return;
+
+      contentContainer.innerHTML = '';
+
+      if (tabData.length === 0) {
+        contentContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <h3>Nenhuma unidade encontrada nesta categoria</h3>
+                        <p>Ajuste os filtros para ver mais resultados.</p>
+                    </div>
+                `;
+        return;
+      }
+
+      tabData.forEach((unit) => {
+        const detailedCard = createDetailedCard(unit);
+        contentContainer.appendChild(detailedCard);
+      });
+    }
+
+    function createDetailedCard(unit) {
+      const card = document.createElement('div');
+      card.className = 'detailed-card';
+
+      const actionClass = getActionClass(unit.action);
+      const actionText = normalizeAction(unit.action);
+
+      let beforeContent = '';
+      let afterContent = '';
+
+      if (unit.oldName) {
+        beforeContent = `
+                    <div class="unit-info before">
+                        <div class="unit-title">${highlightSearch(
+          unit.oldName
+        )}</div>
+                        <div class="unit-abbrev-detail">${highlightSearch(
+          unit.oldAbbr
+        )}</div>
+                    </div>
+                `;
+      } else {
+        beforeContent = `
+                    <div class="unit-info empty">
+                        Unidade não existia
+                    </div>
+                `;
+      }
+
+      if (unit.newName) {
+        afterContent = `
+                    <div class="unit-info after">
+                        <div class="unit-title">${highlightSearch(
+          unit.newName
+        )}</div>
+                        <div class="unit-abbrev-detail">${highlightSearch(
+          unit.newAbbr
+        )}</div>
+                    </div>
+                `;
+      } else {
+        afterContent = `
+                    <div class="unit-info empty">
+                        Unidade será inativada
+                    </div>
+                `;
+      }
+
+      const observationHtml = unit.observation
+        ? `<div class="observation"><strong>Observação:</strong> ${unit.observation}</div>`
+        : '';
+
+      card.innerHTML = `
+                <div class="change-header">
+                    <h3 style="margin: 0; color: #2d3748;">
+                        ${getChangeDescription(unit)}
+                    </h3>
+                    <span class="change-type action-badge ${actionClass}">
+                        ${actionText}
+                    </span>
+                </div>
+                <div class="before-after">
+                    ${beforeContent}
+                    <div class="arrow">→</div>
+                    ${afterContent}
+                </div>
+                ${observationHtml}
+            `;
+
+      return card;
+    }
+
+    function getChangeDescription(unit) {
+      const action = normalizeAction(unit.action);
+
+      switch (action) {
+        case 'CRIAR':
+          return `Nova unidade: ${unit.newName}`;
+        case 'MANTER':
+          return `Mantida: ${unit.oldName}`;
+        case 'TROCAR':
+          return `Alteração: ${unit.oldName} → ${unit.newName}`;
+        case 'INATIVAR':
+          return `Inativação: ${unit.oldName}`;
+        case 'RETIRADA TRAMITAÇÃO':
+          return `Retirada de tramitação: ${unit.oldName}`;
+        default:
+          return unit.oldName
+            ? `${unit.oldName} → ${unit.newName}`
+            : `Nova: ${unit.newName}`;
+      }
+    }
+
+    function switchView(viewType) {
+      currentView = viewType;
+
+      // Update toggle buttons
+      document.querySelectorAll('.toggle-btn').forEach((btn) => {
+        btn.classList.remove('active');
+      });
+
+      if (viewType === 'comparison') {
+        document
+          .querySelector('[onclick="switchView(\'comparison\')"]')
+          .classList.add('active');
+        document.getElementById('comparisonView').style.display = 'grid';
+        document.getElementById('detailedView').classList.remove('active');
+      } else {
+        document
+          .querySelector('[onclick="switchView(\'detailed\')"]')
+          .classList.add('active');
+        document.getElementById('comparisonView').style.display = 'none';
+        document.getElementById('detailedView').classList.add('active');
+
+        // Reset to first tab when switching to detailed view
+        if (!currentTab) currentTab = 'mudancas';
+        switchTab(currentTab);
+      }
+
+      renderData();
+    }
+
+    function createUnitCard(name, abbrev, action, side) {
+      const card = document.createElement('div');
+      const actionClass = getActionClass(action);
+      card.className = `unit-card ${actionClass}`;
+
+      const badge = `<span class="action-badge ${actionClass}">${normalizeAction(
+        action
+      )}</span>`;
+
+      card.innerHTML = `
+                <div class="unit-name">${highlightSearch(name)}</div>
+                <div class="unit-abbrev">${highlightSearch(abbrev)}</div>
+                ${badge}
+            `;
+
+      return card;
+    }
+
+    function getActionClass(action) {
+      const normalized = normalizeAction(action);
+      switch (normalized) {
+        case 'MANTER':
+          return 'manter';
+        case 'CRIAR':
+          return 'criar';
+        case 'TROCAR':
+          return 'trocar';
+        case 'INATIVAR':
+          return 'inativar';
+        case 'RETIRADA TRAMITAÇÃO':
+          return 'retirada';
+        default:
+          return 'trocar';
+      }
+    }
+
+    function highlightSearch(text) {
+      if (!text) return '';
+      const searchTerm = document
+        .getElementById('searchInput')
+        .value.toLowerCase();
+      if (!searchTerm) return text;
+
+      const regex = new RegExp(`(${searchTerm})`, 'gi');
+      return text.replace(regex, '<span class="search-highlight">$1</span>');
+    }
+
+    function resetFilters() {
+      document.getElementById('actionFilter').value = 'Todos';
+      document.getElementById('searchInput').value = '';
+      filterData();
+    }
+
+    function exportToCSV() {
+      const headers = [
+        'Unidade Anterior',
+        'Sigla Anterior',
+        'Ação',
+        'Nova Unidade',
+        'Nova Sigla',
+        'Categoria',
+      ];
+      const csvContent = [
+        headers.join(','),
+        ...filteredData.map((unit) =>
+          [
+            `"${unit.oldName || ''}"`,
+            `"${unit.oldAbbr || ''}"`,
+            `"${unit.action}"`,
+            `"${unit.newName || ''}"`,
+            `"${unit.newAbbr || ''}"`,
+            `"${unit.category || ''}"`,
+          ].join(',')
+        ),
+      ].join('\n');
+
+      const blob = new Blob([csvContent], {
+        type: 'text/csv;charset=utf-8;',
+      });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'reestruturacao_seduc.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', initializeData);
+  </script>
+</body>
+
+<footer class="footer">
+  <div class="department">DPGDOC - COGESPA</div>
+  <div class="credits">Reestruturação 2025 - SEDUC-SP</div>
+</footer>
+
+</html>
