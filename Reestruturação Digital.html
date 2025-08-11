@@ -736,8 +736,8 @@
       </div>
 
       <div class="action-buttons">
-        <button class="btn btn-primary" onclick="exportToCSV()">
-          Exportar CSV
+        <button class="btn btn-primary" onclick="downloadExcel()">
+          Baixar Excel
         </button>
         <button class="btn btn-secondary" onclick="resetFilters()">
           Limpar Filtros
@@ -3156,36 +3156,10 @@
       filterData();
     }
 
-    function exportToCSV() {
-      const headers = [
-        'Unidade Anterior',
-        'Sigla Anterior',
-        'Ação',
-        'Nova Unidade',
-        'Nova Sigla',
-        'Categoria',
-      ];
-      const csvContent = [
-        headers.join(','),
-        ...filteredData.map((unit) =>
-          [
-            `"${unit.oldName || ''}"`,
-            `"${unit.oldAbbr || ''}"`,
-            `"${unit.action}"`,
-            `"${unit.newName || ''}"`,
-            `"${unit.newAbbr || ''}"`,
-            `"${unit.category || ''}"`,
-          ].join(',')
-        ),
-      ].join('\n');
-
-      const blob = new Blob([csvContent], {
-        type: 'text/csv;charset=utf-8;',
-      });
+    function downloadExcel() {
       const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', 'reestruturacao_seduc.csv');
+      link.href = 'Reestruturação - Nova.xlsx';
+      link.download = 'Reestruturação - Nova.xlsx';
       link.style.visibility = 'hidden';
       document.body.appendChild(link);
       link.click();
